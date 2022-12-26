@@ -1,0 +1,433 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/Roboto/24px.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Assets/Fonts/Roboto/16px.tres" type="DynamicFont" id=3]
+[ext_resource path="res://UtilitiesNodes/HButtonList/HButtonList.gd" type="Script" id=4]
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 15.0
+margin_top = 15.0
+margin_right = -15.0
+margin_bottom = -15.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Generals" type="Control" parent="VBoxContainer"]
+margin_right = 610.0
+margin_bottom = 163.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Generals"]
+anchor_right = 1.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/Generals/HBoxContainer"]
+margin_top = 5.0
+margin_right = 94.0
+margin_bottom = 34.0
+custom_fonts/font = ExtResource( 2 )
+text = "Generals"
+
+[node name="Control" type="Control" parent="VBoxContainer/Generals/HBoxContainer"]
+margin_left = 98.0
+margin_right = 610.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/Generals/HBoxContainer"]
+visible = false
+margin_left = 365.0
+margin_top = 5.0
+margin_right = 530.0
+margin_bottom = 34.0
+hint_tooltip = "If on, this will convert the
+given .osu file into another
+.osu file.
+
+if off, paste an editor object
+selection, and then copy
+the converted value into
+the editor."
+mouse_filter = 1
+custom_fonts/font = ExtResource( 2 )
+text = ".osu convert (?)"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/Generals/HBoxContainer"]
+visible = false
+margin_left = 534.0
+margin_right = 610.0
+margin_bottom = 40.0
+pressed = true
+
+[node name="DropText" type="Label" parent="VBoxContainer/Generals"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -177.0
+margin_top = -14.5
+margin_right = 177.0
+margin_bottom = 14.5
+custom_fonts/font = ExtResource( 2 )
+text = "Drop a .osu file into the window..."
+
+[node name="filepath" type="Label" parent="VBoxContainer/Generals"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = 22.5
+margin_bottom = 41.5
+custom_fonts/font = ExtResource( 3 )
+text = "0 maps ready to convert."
+align = 1
+valign = 1
+autowrap = true
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 167.0
+margin_right = 610.0
+margin_bottom = 171.0
+
+[node name="Parameters" type="Control" parent="VBoxContainer"]
+margin_top = 175.0
+margin_right = 610.0
+margin_bottom = 338.0
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/Parameters"]
+margin_right = 94.0
+margin_bottom = 29.0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 2 )
+text = "Parameters"
+
+[node name="Gaps" type="VBoxContainer" parent="VBoxContainer/Parameters"]
+margin_top = 40.0
+margin_right = 312.0
+margin_bottom = 88.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/Parameters/Gaps"]
+margin_right = 369.0
+margin_bottom = 19.0
+hint_tooltip = "The space between the
+LN end and the next
+hitobject."
+mouse_filter = 1
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 3 )
+text = "Beatgap (?) :"
+
+[node name="HButtonList" type="HBoxContainer" parent="VBoxContainer/Parameters/Gaps"]
+margin_top = 23.0
+margin_right = 369.0
+margin_bottom = 48.0
+custom_constants/separation = 12
+script = ExtResource( 4 )
+SelectedButtonIndex = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_right = 21.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "2"
+
+[node name="Button2" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 33.0
+margin_right = 54.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "3"
+
+[node name="Button3" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 66.0
+margin_right = 87.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "4"
+
+[node name="Button4" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 99.0
+margin_right = 120.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "6"
+
+[node name="Button5" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 132.0
+margin_right = 153.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "8"
+
+[node name="Beat" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 165.0
+margin_right = 223.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "C-Beat"
+
+[node name="MS" type="Button" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 235.0
+margin_right = 283.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "C-ms"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/Parameters/Gaps/HButtonList"]
+margin_left = 295.0
+margin_right = 369.0
+margin_bottom = 25.0
+max_value = 1000.0
+value = 16.0
+rounded = true
+
+[node name="MinLength" type="VBoxContainer" parent="VBoxContainer/Parameters"]
+margin_top = 104.0
+margin_right = 312.0
+margin_bottom = 152.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/Parameters/MinLength"]
+margin_right = 369.0
+margin_bottom = 19.0
+hint_tooltip = "The minimum length for a LN.
+if the LN is smaller than
+this, it will become a simple
+hitobject."
+mouse_filter = 1
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 3 )
+text = "Min Length (?) :"
+
+[node name="HButtonList" type="HBoxContainer" parent="VBoxContainer/Parameters/MinLength"]
+margin_top = 23.0
+margin_right = 369.0
+margin_bottom = 48.0
+custom_constants/separation = 12
+script = ExtResource( 4 )
+SelectedButtonIndex = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_right = 21.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "2"
+
+[node name="Button2" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 33.0
+margin_right = 54.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "3"
+
+[node name="Button3" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 66.0
+margin_right = 87.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "4"
+
+[node name="Button4" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 99.0
+margin_right = 120.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "6"
+
+[node name="Button5" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 132.0
+margin_right = 153.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "8"
+
+[node name="Beat" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 165.0
+margin_right = 223.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "C-Beat"
+
+[node name="MS" type="Button" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 235.0
+margin_right = 283.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+toggle_mode = true
+text = "C-ms"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/Parameters/MinLength/HButtonList"]
+margin_left = 295.0
+margin_right = 369.0
+margin_bottom = 25.0
+max_value = 1000.0
+value = 16.0
+rounded = true
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Parameters"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 78.0
+margin_right = 82.0
+
+[node name="Title2" type="Label" parent="VBoxContainer/Parameters"]
+margin_left = 392.0
+margin_right = 516.0
+margin_bottom = 29.0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 2 )
+text = "Overrides"
+
+[node name="Overrides" type="Control" parent="VBoxContainer/Parameters"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -218.0
+margin_top = 30.0
+margin_bottom = -10.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Parameters/Overrides"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -108.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Parameters/Overrides/VBoxContainer"]
+margin_right = 110.0
+margin_bottom = 59.0
+custom_constants/separation = -5
+
+[node name="OD" type="HBoxContainer" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer"]
+margin_right = 110.0
+margin_bottom = 40.0
+custom_constants/separation = -5
+
+[node name="Label" type="Label" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer/OD"]
+margin_top = 10.0
+margin_right = 30.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 3 )
+text = "OD :"
+
+[node name="OD" type="CheckButton" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer/OD"]
+margin_left = 25.0
+margin_right = 101.0
+margin_bottom = 40.0
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer"]
+margin_top = 35.0
+margin_right = 110.0
+margin_bottom = 59.0
+max_value = 10.0
+step = 0.5
+value = 8.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Parameters/Overrides/VBoxContainer"]
+margin_top = 63.0
+margin_right = 110.0
+margin_bottom = 122.0
+custom_constants/separation = -5
+
+[node name="HP" type="HBoxContainer" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2"]
+margin_right = 110.0
+margin_bottom = 40.0
+custom_constants/separation = -5
+
+[node name="Label" type="Label" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/HP"]
+margin_top = 10.0
+margin_right = 29.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 3 )
+text = "HP :"
+
+[node name="HP" type="CheckButton" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/HP"]
+margin_left = 24.0
+margin_right = 100.0
+margin_bottom = 40.0
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2"]
+margin_top = 35.0
+margin_right = 110.0
+margin_bottom = 59.0
+max_value = 10.0
+step = 0.5
+value = 8.0
+
+[node name="LN" type="CheckButton" parent="VBoxContainer/Parameters/Overrides"]
+margin_left = 106.0
+margin_right = 237.0
+margin_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+hint_tooltip = "if on, overide the map's LN.
+
+if off, keep them as normal."
+custom_fonts/font = ExtResource( 3 )
+pressed = true
+text = "LN (?) :"
+
+[node name="NSV" type="CheckButton" parent="VBoxContainer/Parameters/Overrides"]
+margin_left = 94.5
+margin_top = 64.0
+margin_right = 236.5
+margin_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+hint_tooltip = "Remove the map's SV and
+normalize the bpm."
+custom_fonts/font = ExtResource( 3 )
+text = "NSV (?) :"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+margin_top = 342.0
+margin_right = 610.0
+margin_bottom = 346.0
+
+[node name="Buttons" type="Control" parent="VBoxContainer"]
+margin_top = 350.0
+margin_right = 610.0
+margin_bottom = 450.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="Title" type="Label" parent="VBoxContainer/Buttons"]
+margin_right = 94.0
+margin_bottom = 29.0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 2 )
+text = "Buttons"
+
+[node name="Button" type="Button" parent="VBoxContainer/Buttons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -48.0
+margin_top = -17.5
+margin_right = 48.0
+margin_bottom = 17.5
+custom_fonts/font = ExtResource( 2 )
+text = "Convert"
+
+[connection signal="pressed" from="VBoxContainer/Buttons/Button" to="." method="ConversionProcess"]
