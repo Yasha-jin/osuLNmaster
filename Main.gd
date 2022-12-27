@@ -37,6 +37,7 @@ func _ready() -> void:
 	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/SpinBox.connect("value_changed", self, "UpdateConverterArgs", ["HP"])
 	
 	get_tree().connect("files_dropped", self, "Handle_dropped_files")
+	Version.connect("update_available", self, "ShowUpdateLabel")
 
 func UpdateConverterArgs(args, key):
 	if "C-" in str(args):
@@ -70,15 +71,14 @@ func Handle_dropped_files(files: PoolStringArray, _screen: int) -> void:
 	$VBoxContainer/Generals/filepath.text = str(FilePath.size()) + " maps ready to convert."
 
 func ConversionProcess() -> void:
+	var DirToForceUpdate:Array = []
 	for filepath in FilePath:
-		var file2Check = File.new()
-		var doFileExists = file2Check.file_exists(filepath)
-		if !doFileExists:
-			OS.alert(filepath + " doesn't exist.")
-			continue
+		var osuParser = OsuParser.new()
+		var osuFile = osuParser.ParseBeatmap(filepath)
 		
-		var osuFile = OsuFile.new()
-		osuFile.ParseBeatmap(filepath)
+		if !(osuFile is Osu):
+			osuParser.free()
+			continue
 
 		var converter = Converter.new()
 		if osuFile.HitobjectsContainer.size() != 0:
@@ -105,28 +105,40 @@ func ConversionProcess() -> void:
 		
 		var text = toosuformat.Format(Diffname, osuFile)
 		var baseDir = filepath.get_base_dir()
+		if !(baseDir in DirToForceUpdate):
+			DirToForceUpdate.append(baseDir)
 
 		var file = File.new()
-		var file_name = osuFile.Artist + " - " + osuFile.Title + " (" + osuFile.Creator + ") [" + osuFile.Version
+		var file_name:String = osuFile.Artist + " - " + osuFile.Title + " (" + osuFile.Creator + ") [" + osuFile.Version
 		file_name += Diffname + "].osu"
+		
+		# In case the filename end up invalid due to the osu entry
+		if !file_name.is_valid_filename():
+			var regex = RegEx.new()
+			regex.compile("[\\\\/:*?\"<>|]")
+			file_name = regex.sub(file_name, "")
+		
 		file.open(baseDir + "/" + file_name, File.WRITE)
 		file.store_string(text)
 		file.close()
 		
-		# Force osu to reload the folder
-		var dir = Directory.new()
-		dir.open(baseDir)
-		dir.rename(baseDir, baseDir + " forceupdate")
-		dir.rename(baseDir + " forceupdate", baseDir)
-		
 		# Memory managements stuff
-		for obj in osuFile.HitobjectsContainer:
-			obj.free()
-		for obj in osuFile.TimingPointsContainer:
-			obj.free()
+		osuParser.free()
 		osuFile.free()
 		converter.free()
 		toosuformat.free()
+	
+	# Force osu to reload the folders on linux.
+	# Wine Osu doesn't detect change in map folder but does in
+	# Song Folder (at least from personal experience)
+	# so we'll make it detect it.
+	if OS.get_name() == "X11":
+		var dir = Directory.new()
+		for d in DirToForceUpdate:
+			dir.open(d)
+			dir.rename(d, d + "up")
+			dir.rename(d + "up", d)
+	DirToForceUpdate.clear()
 
 func DiffnameFormatting():
 	var Format = " ("
@@ -159,3 +171,9 @@ func DiffnameFormatting():
 	Format += ")"
 	
 	return Format
+
+func _on_Github_pressed():
+	OS.shell_open("https://github.com/Yasha-jin/osuLNmaster")
+
+func ShowUpdateLabel():
+	$VBoxContainer/Buttons/Update.show()

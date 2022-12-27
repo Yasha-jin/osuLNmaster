@@ -25,9 +25,14 @@ _global_script_classes=[ {
 "path": "res://UtilitiesNodes/HButtonList/HButtonList.gd"
 }, {
 "base": "Object",
-"class": "OsuFile",
+"class": "Osu",
 "language": "GDScript",
-"path": "res://addons/GDosumania/OsuFile.gd"
+"path": "res://addons/GDosumania/Osu.gd"
+}, {
+"base": "Object",
+"class": "OsuParser",
+"language": "GDScript",
+"path": "res://addons/GDosumania/OsuParser.gd"
 }, {
 "base": "Object",
 "class": "OsuTimingPoint",
@@ -48,7 +53,8 @@ _global_script_class_icons={
 "Converter": "",
 "Formatter": "",
 "HButtonList": "",
-"OsuFile": "",
+"Osu": "",
+"OsuParser": "",
 "OsuTimingPoint": "",
 "OsumaniaHitObject": "",
 "SVRemover": ""
@@ -60,6 +66,10 @@ config/name="osuLNmaster"
 run/main_scene="res://Main.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
+
+[autoload]
+
+Version="*res://Version.gd"
 
 [debug]
 
