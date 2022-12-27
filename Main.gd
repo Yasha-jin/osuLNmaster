@@ -1,5 +1,10 @@
 extends Control
 
+var osuParser = OsuParser.new()
+var converter = Converter.new()
+var toosuformat = Formatter.new()
+var svRemover = SVRemover.new()
+
 var FilePath:Array = []
 var ConverterArgs:Dictionary = {
 	"Beatgap": "4",
@@ -73,26 +78,20 @@ func Handle_dropped_files(files: PoolStringArray, _screen: int) -> void:
 func ConversionProcess() -> void:
 	var DirToForceUpdate:Array = []
 	for filepath in FilePath:
-		var osuParser = OsuParser.new()
 		var osuFile = osuParser.ParseBeatmap(filepath)
 		
 		if !(osuFile is Osu):
-			osuParser.free()
 			continue
 
-		var converter = Converter.new()
 		if osuFile.HitobjectsContainer.size() != 0:
 			osuFile.HitobjectsContainer = converter.Convert(ConverterArgs, osuFile)
 		else:
 			OS.alert("An error occured while parsing, the beatmap may be invalid.")
 			osuFile.free()
-			converter.free()
 			return
 		
 		if ConverterArgs.OverrideSV:
-			var svRemover = SVRemover.new()
 			osuFile.TimingPointsContainer = svRemover.Remove(osuFile)
-			svRemover.free()
 
 		if ConverterArgs.OverrideOD:
 			osuFile.OverallDifficulty = float(ConverterArgs.OD)
@@ -100,7 +99,6 @@ func ConversionProcess() -> void:
 		if ConverterArgs.OverrideHP:
 			osuFile.HPDrainRate = float(ConverterArgs.HP)
 		
-		var toosuformat = Formatter.new()
 		var Diffname = DiffnameFormatting()
 		
 		var text = toosuformat.Format(Diffname, osuFile)
@@ -123,10 +121,7 @@ func ConversionProcess() -> void:
 		file.close()
 		
 		# Memory managements stuff
-		osuParser.free()
 		osuFile.free()
-		converter.free()
-		toosuformat.free()
 	
 	# Force osu to reload the folders on linux.
 	# Wine Osu doesn't detect change in map folder but does in
