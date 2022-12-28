@@ -114,7 +114,7 @@ func ConversionProcess() -> void:
 		if !file_name.is_valid_filename():
 			var regex = RegEx.new()
 			regex.compile("[\\\\/:*?\"<>|]")
-			file_name = regex.sub(file_name, "")
+			file_name = regex.sub(file_name, "", true)
 		
 		file.open(baseDir + "/" + file_name, File.WRITE)
 		file.store_string(text)
