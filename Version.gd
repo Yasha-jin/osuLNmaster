@@ -5,7 +5,7 @@ extends Node
 const api_endpoint = "https://api.github.com/repos/Yasha-jin/osuLNmaster/releases"
 
 # Update before creating release
-const version_tag = "v1.0.1"
+const version_tag = "v1.0.2"
 
 # Initialized to the release list page as a fallback in case it fails to 
 # get the link to the latest release for some reason
