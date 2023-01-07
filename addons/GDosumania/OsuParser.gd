@@ -74,4 +74,11 @@ func ParseBeatmap(filepath: String):
 					if key in osu: osu.set(key, str(value))
 	
 	beatmap.close()
+	
+	osu.TimingPointsContainer.sort_custom(self, "TimeSorter")
+	osu.HitobjectsContainer.sort_custom(self, "TimeSorter")
+	
 	return osu
+
+func TimeSorter(a, b):
+	return a.time < b.time

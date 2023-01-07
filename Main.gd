@@ -27,6 +27,8 @@ func _ready() -> void:
 	set_process(false)
 	set_physics_process(false)
 	
+	$VBoxContainer/Buttons/Version.text = Version.version_tag
+	
 	$VBoxContainer/Parameters/Gaps/HButtonList.connect("SelectedButtonChanged", self, "UpdateConverterArgs", ["Beatgap"])
 	$VBoxContainer/Parameters/MinLength/HButtonList.connect("SelectedButtonChanged", self, "UpdateConverterArgs", ["MinimumLength"])
 	
@@ -42,7 +44,7 @@ func _ready() -> void:
 	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/SpinBox.connect("value_changed", self, "UpdateConverterArgs", ["HP"])
 	
 	get_tree().connect("files_dropped", self, "Handle_dropped_files")
-	Version.connect("update_available", self, "ShowUpdateLabel")
+	Version.connect("update_available", self, "UpdateVersionLabel")
 
 func UpdateConverterArgs(args, key):
 	if "C-" in str(args):
@@ -170,5 +172,5 @@ func DiffnameFormatting():
 func _on_Github_pressed():
 	OS.shell_open("https://github.com/Yasha-jin/osuLNmaster")
 
-func ShowUpdateLabel():
-	$VBoxContainer/Buttons/Update.show()
+func UpdateVersionLabel():
+	$VBoxContainer/Buttons/Version.text += " (New update available on github !)"
