@@ -1,14 +1,19 @@
 extends Object
 class_name Converter
 
+# To avoid 1-2ms difference in LN length making some
+# hitobjects a LN and other not, when they should be
+# accordng to adjacent hibobjects.
+const Leniency:int = 2
+
 func Convert(ConverterArgs:Dictionary, osuFile:Object):
 	var SVIndex:int = -1
 
-	var bpm
-	var Beatgap
-	var MinimumLength
-	var beatLength
-	var minLength
+	var bpm:float
+	var Beatgap:int = int(ConverterArgs.CustomBeatgap) if ConverterArgs.BeatgapUseCustom else int(ConverterArgs.Beatgap)
+	var MinimumLength:int = int(ConverterArgs.CustomMinimumLength) if ConverterArgs.MinimumLengthUseCustom else int(ConverterArgs.MinimumLength)
+	var beatLength:float
+	var minLength:float
 	
 	# SV doesn't matter toward LN length, so we'll only go over BPM
 	var BeatLengthContainer:Array = []
@@ -22,10 +27,8 @@ func Convert(ConverterArgs:Dictionary, osuFile:Object):
 				SVIndex += 1
 				
 				bpm = 60000.0 / float(BeatLengthContainer[SVIndex].beatLength)
-				Beatgap = ConverterArgs.CustomBeatgap if ConverterArgs.BeatgapUseCustom else ConverterArgs.Beatgap
-				MinimumLength = ConverterArgs.CustomMinimumLength if ConverterArgs.MinimumLengthUseCustom else ConverterArgs.MinimumLength
-				beatLength = ConverterArgs.CustomBeatgap if ConverterArgs.BeatgapInMS else 60000.0 / bpm / int(Beatgap)
-				minLength = ConverterArgs.CustomMinimumLength if ConverterArgs.MinimumLengthInMS else 60000.0 / bpm / int(MinimumLength)
+				beatLength = ConverterArgs.CustomBeatgap if ConverterArgs.BeatgapInMS else 60000.0 / bpm / Beatgap
+				minLength = ConverterArgs.CustomMinimumLength if ConverterArgs.MinimumLengthInMS else 60000.0 / bpm / MinimumLength
 		
 		# Skip the hitobject if override is off and if it a LN
 		if ConverterArgs.OverrideLN == false && osuFile.HitobjectsContainer[index].endTime != 0:
@@ -42,11 +45,11 @@ func Convert(ConverterArgs:Dictionary, osuFile:Object):
 		if nextHitobject == null:
 			continue
 		
-		var NewEndTime = nextHitobject.time - round(float(beatLength))
+		var NewEndTime = nextHitobject.time - round(beatLength)
 		
 		# if the LN is smaller than the minimum length, skip it
 		# Also set the type/endTime in case it was a LN
-		if NewEndTime - osuFile.HitobjectsContainer[index].time < round(float(minLength)):
+		if NewEndTime - osuFile.HitobjectsContainer[index].time < round(minLength) - Leniency:
 			osuFile.HitobjectsContainer[index].type = 1
 			osuFile.HitobjectsContainer[index].endTime = 0
 			continue
