@@ -1,10 +1,10 @@
 extends Object
 class_name Converter
 
-# To avoid 1-2ms difference in LN length making some
+# Avoid 1-2ms difference in LN length making some
 # hitobjects a LN and other not, when they should be
 # accordng to adjacent hibobjects.
-const Leniency:int = 2
+const minLengthLeniency:int = 2
 
 func Convert(ConverterArgs:Dictionary, osuFile:Object):
 	var SVIndex:int = -1
@@ -49,7 +49,7 @@ func Convert(ConverterArgs:Dictionary, osuFile:Object):
 		
 		# if the LN is smaller than the minimum length, skip it
 		# Also set the type/endTime in case it was a LN
-		if NewEndTime - osuFile.HitobjectsContainer[index].time < round(minLength) - Leniency:
+		if NewEndTime - osuFile.HitobjectsContainer[index].time < round(minLength) - minLengthLeniency:
 			osuFile.HitobjectsContainer[index].type = 1
 			osuFile.HitobjectsContainer[index].endTime = 0
 			continue
