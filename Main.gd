@@ -174,3 +174,7 @@ func _on_Github_pressed():
 
 func UpdateVersionLabel():
 	$VBoxContainer/Buttons/Version.text += " (New update available on github !)"
+
+func ClearQueue():
+	FilePath.clear()
+	$VBoxContainer/Generals/filepath.text = str(FilePath.size()) + " maps ready to convert."

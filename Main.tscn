@@ -40,9 +40,16 @@ text = "Generals"
 
 [node name="Control" type="Control" parent="VBoxContainer/Generals/HBoxContainer"]
 margin_left = 98.0
-margin_right = 610.0
+margin_right = 466.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="VBoxContainer/Generals/HBoxContainer"]
+margin_left = 470.0
+margin_right = 610.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 2 )
+text = "Clear queue"
 
 [node name="Label2" type="Label" parent="VBoxContainer/Generals/HBoxContainer"]
 visible = false
@@ -450,5 +457,6 @@ margin_top = -35.0
 custom_fonts/font = ExtResource( 2 )
 text = "Github"
 
+[connection signal="pressed" from="VBoxContainer/Generals/HBoxContainer/Button" to="." method="ClearQueue"]
 [connection signal="pressed" from="VBoxContainer/Buttons/Button" to="." method="ConversionProcess"]
 [connection signal="pressed" from="VBoxContainer/Buttons/Github" to="." method="_on_Github_pressed"]
