@@ -1,7 +1,7 @@
 extends Object
 class_name Formatter
 
-func Format(DiffnameFormatting:String, osuFile:Object):
+func Format(DiffnameFormatting:String, osuFile:Osu):
 	var file:String = ""
 	
 	var section:String = "[General]"
@@ -36,7 +36,7 @@ func Format(DiffnameFormatting:String, osuFile:Object):
 			if section == "[General]" or section == "[Editor]":
 				space = " "
 			
-			if typeof(osuFile.get(key.name)) != TYPE_ARRAY:
+			if typeof(osuFile.get(key.name)) != TYPE_ARRAY && key.name != "Colours":
 				file += key.name + ":" + space + str(osuFile.get(key.name)) + "\n"
 	
 	file += "[TimingPoints]\n"
@@ -52,9 +52,16 @@ func Format(DiffnameFormatting:String, osuFile:Object):
 		
 		file += time + "," + beatLength + "," + meter + "," + sampleSet + "," + sampleIndex + "," + volume + "," + uninherited + "," + effects + "\n"
 	
+	file += "\n"
+	
+	if osuFile.Colours != "":
+		file += "\n[Colours]\n" + str(osuFile.get("Colours"))
+	else:
+		file += "\n"
+	
 	# dunno why but there is 2 empty line before the hitobject
 	# section instead of 1.
-	file += "\n\n[HitObjects]\n"
+	file += "[HitObjects]\n"
 	for hitobject in osuFile.HitobjectsContainer:
 		var x = str(hitobject.x)
 		var y = str(hitobject.y)

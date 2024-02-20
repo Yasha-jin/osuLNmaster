@@ -45,6 +45,9 @@ var SliderTickRate
 # Events
 var Events:String = ""
 
+# Colours
+var Colours:String = ""
+
 var HitobjectsContainer:Array = []
 var TimingPointsContainer:Array = []
 

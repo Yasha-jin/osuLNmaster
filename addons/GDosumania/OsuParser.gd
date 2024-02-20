@@ -1,7 +1,7 @@
 extends Object
 class_name OsuParser
 
-const section_name := ["[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[Events]", "[TimingPoints]", "[HitObjects]"]
+const section_name := ["[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[Events]", "[TimingPoints]", "[Colours]", "[HitObjects]"]
 
 func ParseBeatmap(filepath: String):
 	var beatmap := File.new()
@@ -28,6 +28,9 @@ func ParseBeatmap(filepath: String):
 		
 		if section == "[Events]":
 			osu.Events += line + "\n"
+		
+		if section == "[Colours]":
+			osu.Colours += line + "\n"
 		
 		elif section == "[TimingPoints]":
 			if "," in line:
