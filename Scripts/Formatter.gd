@@ -11,8 +11,9 @@ func Format(DiffnameFormatting:String, osuFile:Osu):
 				file += str(osuFile.get(key.name)) + "\n\n" + "[General]" + "\n"
 				continue
 			elif key.name == "Bookmarks" || key.name == "DistanceSpacing":
-				section = "[Editor]"
-				file += "\n[Editor]\n"
+				if section != "[Editor]":
+					section = "[Editor]"
+					file += "\n[Editor]\n"
 			elif key.name == "Title":
 				section = "[Metadata]"
 				file += "\n[Metadata]\n"
