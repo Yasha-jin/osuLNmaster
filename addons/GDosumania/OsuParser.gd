@@ -23,7 +23,11 @@ func ParseBeatmap(filepath: String):
 			continue
 		
 		if "osu file format" in line:
-			osu.Format = str(line)
+			var value = line.substr(17, -1)
+			if int(value) < 14:
+				osu.Format = "osu file format v14"
+			else:
+				osu.Format = str(line)
 			continue
 		
 		if section == "[Events]":
