@@ -27,8 +27,8 @@ func Convert(ConverterArgs:Dictionary, osuFile:Object):
 				SVIndex += 1
 				
 				bpm = 60000.0 / float(BeatLengthContainer[SVIndex].beatLength)
-				beatLength = ConverterArgs.CustomBeatgap if ConverterArgs.BeatgapInMS else 60000.0 / bpm / Beatgap
-				minLength = ConverterArgs.CustomMinimumLength if ConverterArgs.MinimumLengthInMS else 60000.0 / bpm / MinimumLength
+				beatLength = int(ConverterArgs.CustomBeatgap) if ConverterArgs.BeatgapInMS else 60000.0 / bpm / Beatgap
+				minLength = int(ConverterArgs.CustomMinimumLength) if ConverterArgs.MinimumLengthInMS else 60000.0 / bpm / MinimumLength
 		
 		# Skip the hitobject if override is off and if it a LN
 		if ConverterArgs.OverrideLN == false && osuFile.HitobjectsContainer[index].endTime != 0:

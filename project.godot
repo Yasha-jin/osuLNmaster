@@ -48,6 +48,11 @@ _global_script_classes=[ {
 "class": "SVRemover",
 "language": "GDScript",
 "path": "res://Scripts/SVRemover.gd"
+}, {
+"base": "Object",
+"class": "SettingsSaver",
+"language": "GDScript",
+"path": "res://Scripts/SettingsSaver.gd"
 } ]
 _global_script_class_icons={
 "Converter": "",
@@ -57,7 +62,8 @@ _global_script_class_icons={
 "OsuParser": "",
 "OsuTimingPoint": "",
 "OsumaniaHitObject": "",
-"SVRemover": ""
+"SVRemover": "",
+"SettingsSaver": ""
 }
 
 [application]

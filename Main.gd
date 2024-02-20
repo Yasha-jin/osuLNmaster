@@ -4,6 +4,7 @@ var osuParser = OsuParser.new()
 var converter = Converter.new()
 var toosuformat = Formatter.new()
 var svRemover = SVRemover.new()
+var settingsSaver = SettingsSaver.new()
 
 var FilePath:Array = []
 var ConverterArgs:Dictionary = {
@@ -43,6 +44,10 @@ func _ready() -> void:
 	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer/SpinBox.connect("value_changed", self, "UpdateConverterArgs", ["OD"])
 	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/SpinBox.connect("value_changed", self, "UpdateConverterArgs", ["HP"])
 	
+	var settings:Dictionary = settingsSaver.ReadSettings()
+	ConverterArgs = settings
+	UpdateInterface()
+	
 	get_tree().connect("files_dropped", self, "Handle_dropped_files")
 	Version.connect("update_available", self, "UpdateVersionLabel")
 
@@ -63,9 +68,11 @@ func UpdateConverterArgs(args, key):
 			ConverterArgs.MinimumLengthInMS = false
 		
 		ConverterArgs[key] = str(args)
+	settingsSaver.SaveSettings(ConverterArgs)
 
 func UpdateConverterOverride(args, key):
 	ConverterArgs["Override" + key] = args
+	settingsSaver.SaveSettings(ConverterArgs)
 
 func Handle_dropped_files(files: PoolStringArray, _screen: int) -> void:
 	FilePath.clear()
@@ -178,3 +185,44 @@ func UpdateVersionLabel():
 func ClearQueue():
 	FilePath.clear()
 	$VBoxContainer/Generals/filepath.text = str(FilePath.size()) + " maps ready to convert."
+
+func UpdateInterface():
+	# Beatgap
+	$VBoxContainer/Parameters/Gaps/HButtonList/Button3.pressed = false
+	if ConverterArgs.BeatgapInMS:
+		$VBoxContainer/Parameters/Gaps/HButtonList/MS.pressed = true
+	elif ConverterArgs.BeatgapUseCustom:
+		$VBoxContainer/Parameters/Gaps/HButtonList/Beat.pressed = true
+	else:
+		for child in $VBoxContainer/Parameters/Gaps/HButtonList.get_children():
+			if child.get_class() == "Button":
+				if child.text == ConverterArgs.Beatgap:
+					child.pressed = true
+				else:
+					child.pressed = false
+	$VBoxContainer/Parameters/Gaps/HButtonList/SpinBox.value = int(ConverterArgs.CustomBeatgap)
+	
+	# Min length
+	$VBoxContainer/Parameters/MinLength/HButtonList/Button3.pressed = false
+	if ConverterArgs.MinimumLengthInMS:
+		$VBoxContainer/Parameters/MinLength/HButtonList/MS.pressed = true
+	elif ConverterArgs.MinimumLengthUseCustom:
+		$VBoxContainer/Parameters/MinLength/HButtonList/Beat.pressed = true
+	else:
+		for child in $VBoxContainer/Parameters/MinLength/HButtonList.get_children():
+			if child.get_class() == "Button":
+				if child.text == ConverterArgs.Beatgap:
+					child.pressed = true
+				else:
+					child.pressed = false
+	$VBoxContainer/Parameters/MinLength/HButtonList/SpinBox.value = int(ConverterArgs.CustomMinimumLength)
+	
+	# Overrides
+	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer/OD/OD.pressed = ConverterArgs.OverrideOD
+	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer/SpinBox.value = float(ConverterArgs.OD)
+	
+	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/HP/HP.pressed = ConverterArgs.OverrideHP
+	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/SpinBox.value = float(ConverterArgs.HP)
+	
+	$VBoxContainer/Parameters/Overrides/LN.pressed = ConverterArgs.OverrideLN
+	$VBoxContainer/Parameters/Overrides/NSV.pressed = ConverterArgs.OverrideSV
