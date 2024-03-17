@@ -76,7 +76,7 @@ func ParseBeatmap(filepath: String):
 			if section in section_name:
 				if ":" in line:
 					var key = (line.substr(0, line.find(":"))).strip_edges()
-					var value = line.split(":")[1].strip_edges()
+					var value = line.split(":", true, 1)[1].strip_edges()
 					
 					if key in osu: osu.set(key, str(value))
 	
