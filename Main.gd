@@ -44,9 +44,13 @@ func _ready() -> void:
 	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer/SpinBox.connect("value_changed", self, "UpdateConverterArgs", ["OD"])
 	$VBoxContainer/Parameters/Overrides/VBoxContainer/VBoxContainer2/SpinBox.connect("value_changed", self, "UpdateConverterArgs", ["HP"])
 	
-	var settings:Dictionary = settingsSaver.ReadSettings()
-	ConverterArgs = settings
-	UpdateInterface()
+	var file = File.new()
+	if file.file_exists("user://Settings.ini"):
+		var settings:Dictionary = settingsSaver.ReadSettings()
+		ConverterArgs = settings
+		UpdateInterface()
+	else:
+		settingsSaver.SaveSettings(ConverterArgs)
 	
 	get_tree().connect("files_dropped", self, "Handle_dropped_files")
 	Version.connect("update_available", self, "UpdateVersionLabel")
