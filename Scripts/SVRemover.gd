@@ -3,10 +3,14 @@ class_name SVRemover
 
 func Remove(osuFile:Object):
 	# Remove SV
-	for index in range(osuFile.TimingPointsContainer.size() - 1, 0, -1):
-		if osuFile.TimingPointsContainer[index].uninherited == 0:
-			osuFile.TimingPointsContainer[index].free()
-			osuFile.TimingPointsContainer.remove(index)
+	var TPtemp := []
+	for tp in osuFile.TimingPointsContainer:
+		if tp.uninherited == 1:
+			TPtemp.append(tp)
+		else:
+			tp.free()
+	osuFile.TimingPointsContainer.clear()
+	osuFile.TimingPointsContainer = TPtemp
 	
 	# Get the duration of all bpm point
 	var LastHitObjectTime = osuFile.HitobjectsContainer[-1].endTime if osuFile.HitobjectsContainer[-1].endTime != 0 else osuFile.HitobjectsContainer[-1].time
